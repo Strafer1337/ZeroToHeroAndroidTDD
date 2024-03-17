@@ -1,6 +1,7 @@
 package ru.easycode.zerotoheroandroidtdd
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,14 +11,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val changeButton: Button = findViewById(R.id.changeButton)
+        val hideButton: Button = findViewById(R.id.hideButton)
         val titleTextView: TextView = findViewById(R.id.titleTextView)
 
 //        if (savedInstanceState != null)
 //            titleTextView.text = savedInstanceState.getString("ttw")
-
-        changeButton.setOnClickListener {
-            titleTextView.text = getString(R.string.and_dev)
+        hideButton.setOnClickListener {
+            titleTextView.visibility = View.INVISIBLE
         }
     }
 
@@ -25,13 +25,13 @@ class MainActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
 
         val titleTextView: TextView = findViewById(R.id.titleTextView)
-        titleTextView.text = savedInstanceState.getString("ttw")
+        titleTextView.visibility = savedInstanceState.getInt("ttw_visibility")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
         val titleTextView: TextView = findViewById(R.id.titleTextView)
-        outState.putString("ttw", titleTextView.getText().toString())
+        outState.putInt("ttw_visibility", titleTextView.visibility)
     }
 }

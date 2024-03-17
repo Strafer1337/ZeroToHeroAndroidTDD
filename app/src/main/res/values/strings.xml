@@ -3,4 +3,5 @@
     <string name="hello">"Hello World!"</string>
     <string name="and_dev">I am an Android Developer!</string>
     <string name="change">change</string>
+    <string name="hide">hide</string>
 </resources>
