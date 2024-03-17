@@ -7,8 +7,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var titleTextView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
             titleTextView.visibility = View.INVISIBLE // or GONE
         }
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("ttw_visibility", titleTextView.visibility)
