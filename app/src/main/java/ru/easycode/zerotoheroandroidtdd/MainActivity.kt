@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val incrementButton: Button = findViewById(R.id.incrementButton)
 
         incrementButton.setOnClickListener {
-            (countTextView.text.toString().toInt() + 2).toString().also { countTextView.text = it }
+            Count.Base(2).increment(countTextView.text.toString()).also { countTextView.text = it }
         }
     }
 
