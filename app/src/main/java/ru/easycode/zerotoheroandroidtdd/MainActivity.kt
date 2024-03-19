@@ -10,6 +10,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rootLayout: LinearLayout
     private lateinit var countTextView: TextView
+    private lateinit var incrementButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,21 +18,31 @@ class MainActivity : AppCompatActivity() {
 
         rootLayout = findViewById(R.id.rootLayout)
         countTextView = findViewById(R.id.countTextView)
-
-        val incrementButton: Button = findViewById(R.id.incrementButton)
+        incrementButton = findViewById(R.id.incrementButton)
 
         incrementButton.setOnClickListener {
-            (countTextView.text.toString().toInt() + 2).toString().also { countTextView.text = it }
+            (countTextView.text.toString().toInt() + 2).also {
+                if (it < 4) countTextView.text = it.toString()
+                else if (it == 4) {
+                    countTextView.text = it.toString()
+                    incrementButton.isEnabled = false
+                }
+                else {
+                    incrementButton.isEnabled = false
+                }
+            }
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString("countTextViewState", countTextView.text.toString())
+        outState.putBoolean("incrementButtonEnabled", incrementButton.isEnabled)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         countTextView.text = savedInstanceState.getString("countTextViewState")
+        incrementButton.isEnabled = savedInstanceState.getBoolean("incrementButtonEnabled")
     }
 }
