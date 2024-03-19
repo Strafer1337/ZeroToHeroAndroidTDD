@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
         incrementButton = findViewById(R.id.incrementButton)
 
         incrementButton.setOnClickListener {
-            (countTextView.text.toString().toInt() + 2).also {
-                if (it < 4) countTextView.text = it.toString()
-                else if (it == 4) {
-                    countTextView.text = it.toString()
+            Count.Base(2).increment(countTextView.text.toString()).also {
+                if (it.toInt() < 4) countTextView.text = it
+                else if (it.toInt() == 4) {
+                    countTextView.text = it
                     incrementButton.isEnabled = false
                 }
                 else {
