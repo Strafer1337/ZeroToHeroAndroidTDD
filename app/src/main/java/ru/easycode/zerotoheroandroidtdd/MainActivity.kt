@@ -27,13 +27,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("countTextViewState", countTextView.text.toString())
+//        outState.putString("countTextViewState", countTextView.text.toString())
         outState.putBoolean("incrementButtonEnabled", incrementButton.isEnabled)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        countTextView.text = savedInstanceState.getString("countTextViewState")
+//        countTextView.text = savedInstanceState.getString("countTextViewState")
         incrementButton.isEnabled = savedInstanceState.getBoolean("incrementButtonEnabled")
     }
 }
