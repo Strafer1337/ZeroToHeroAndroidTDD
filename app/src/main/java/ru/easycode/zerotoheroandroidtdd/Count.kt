@@ -3,15 +3,21 @@ package ru.easycode.zerotoheroandroidtdd
 interface Count {
     fun increment(number: String): UiState
 
-    class Base(private val step: Int, private val max: Int) : Count {
+    fun decrement(number: String): UiState
+
+    fun initial(number: String): UiState
+
+    class Base(private val step: Int, private val max: Int, private val min: Int) : Count {
 
         init {
             if (step < 1)
                 throw IllegalStateException("step should be positive, but was $step")
             if (max < 1)
                 throw IllegalStateException("max should be positive, but was $max")
-            else if (max < step)
+            if (max < step)
                 throw IllegalStateException("max should be more than step")
+            if (max < min)
+                throw IllegalStateException("max should be more than min")
         }
 
         override fun increment(number: String): UiState {
@@ -20,6 +26,25 @@ interface Count {
                 UiState.Base(result.toString())
             } else {
                 UiState.Max(result.toString())
+            }
+        }
+
+        override fun decrement(number: String): UiState {
+            val result = number.toInt() - step
+            return if (result - step >= min) {
+                UiState.Base(result.toString())
+            } else {
+                UiState.Min(result.toString())
+            }
+        }
+
+        override fun initial(number: String): UiState {
+            return if (number.toInt() + step > max) {
+                UiState.Max(number)
+            } else if (number.toInt() - step < min){
+                UiState.Min(number)
+            } else {
+                UiState.Base(number)
             }
         }
     }
