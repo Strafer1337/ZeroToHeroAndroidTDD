@@ -34,9 +34,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+
         uiState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             savedInstanceState.getSerializable(UISTATE_KEY, UiState::class.java) as UiState
-        else savedInstanceState.getSerializable(UISTATE_KEY) as UiState
+        else
+            savedInstanceState.getSerializable(UISTATE_KEY) as UiState
+
         uiState.apply(countTextView, incrementButton)
 
     }
