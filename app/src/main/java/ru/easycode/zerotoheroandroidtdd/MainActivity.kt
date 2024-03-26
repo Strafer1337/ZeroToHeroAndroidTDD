@@ -24,7 +24,10 @@ class MainActivity : AppCompatActivity() {
         incrementButton = findViewById(R.id.incrementButton)
         decrementButton = findViewById(R.id.decrementButton)
 
-        uiState = count.initial(countTextView.text.toString())
+        if (savedInstanceState == null) {
+            uiState = count.initial(countTextView.text.toString())
+            uiState.apply(countTextView, incrementButton, decrementButton)
+        }
 
         incrementButton.setOnClickListener {
             uiState = count.increment(countTextView.text.toString())
@@ -45,13 +48,13 @@ class MainActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        uiState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            savedInstanceState.getSerializable(UISTATE_KEY, UiState::class.java) as UiState
-        else
-            savedInstanceState.getSerializable(UISTATE_KEY) as UiState
+        uiState =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) savedInstanceState.getSerializable(
+                UISTATE_KEY, UiState::class.java
+            ) as UiState
+            else savedInstanceState.getSerializable(UISTATE_KEY) as UiState
 
         uiState.apply(countTextView, incrementButton, decrementButton)
-
     }
 
     companion object {
