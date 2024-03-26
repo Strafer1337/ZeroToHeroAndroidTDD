@@ -1,14 +1,16 @@
 package ru.easycode.zerotoheroandroidtdd
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var rootLayout: LinearLayout
+    private val count: Count.Base = Count.Base(2, 5)
+    private var uiState: UiState = UiState.Base("0")
+
     private lateinit var countTextView: TextView
     private lateinit var incrementButton: Button
 
@@ -16,30 +18,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        rootLayout = findViewById(R.id.rootLayout)
         countTextView = findViewById(R.id.countTextView)
         incrementButton = findViewById(R.id.incrementButton)
 
         incrementButton.setOnClickListener {
-            Count.Base(2, 4)
-                .increment(countTextView.text.toString())
-                .also{
-                    countTextView.text = it.getText()
-                    when (it) {
-                        is UiState.Base -> incrementButton.isEnabled = true
-                        is UiState.Max -> incrementButton.isEnabled = false
-                    }
-            }
+            uiState = count.increment(countTextView.text.toString())
+            uiState.apply(countTextView, incrementButton)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean("incrementButtonEnabled", incrementButton.isEnabled)
+        outState.putSerializable(UISTATE_KEY, uiState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        incrementButton.isEnabled = savedInstanceState.getBoolean("incrementButtonEnabled")
+        uiState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            savedInstanceState.getSerializable(UISTATE_KEY, UiState::class.java) as UiState
+        else savedInstanceState.getSerializable(UISTATE_KEY) as UiState
+        uiState.apply(countTextView, incrementButton)
+
+    }
+
+    companion object {
+        private const val UISTATE_KEY = "UiStateKey"
     }
 }
