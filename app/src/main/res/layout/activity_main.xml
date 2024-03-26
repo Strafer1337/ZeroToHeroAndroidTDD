@@ -9,20 +9,26 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/decrementButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/decrement"/>
+
     <TextView
         android:id="@+id/countTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/zero"
         android:textSize="32sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginHorizontal="16dp"/>
 
     <Button
         android:id="@+id/incrementButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:enabled="true"
-        android:layout_marginStart="16dp"
         android:text="@string/increment" />
 
 </LinearLayout>
