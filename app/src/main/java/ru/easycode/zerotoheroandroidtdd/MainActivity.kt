@@ -23,8 +23,10 @@ class MainActivity : AppCompatActivity() {
         incrementButton = findViewById(R.id.incrementButton)
         decrementButton = findViewById(R.id.decrementButton)
 
-        uiState = count.initial(countTextView.text.toString())
-        uiState.apply(countTextView, incrementButton, decrementButton)
+        if (savedInstanceState == null) {
+            uiState = count.initial(countTextView.text.toString())
+            uiState.apply(countTextView, incrementButton, decrementButton)
+        }
 
         incrementButton.setOnClickListener {
             uiState = count.increment(countTextView.text.toString())
