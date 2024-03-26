@@ -1,6 +1,5 @@
 package ru.easycode.zerotoheroandroidtdd
 
-import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -24,10 +23,8 @@ class MainActivity : AppCompatActivity() {
         incrementButton = findViewById(R.id.incrementButton)
         decrementButton = findViewById(R.id.decrementButton)
 
-        if (savedInstanceState == null) {
-            uiState = count.initial(countTextView.text.toString())
-            uiState.apply(countTextView, incrementButton, decrementButton)
-        }
+        uiState = count.initial(countTextView.text.toString())
+        uiState.apply(countTextView, incrementButton, decrementButton)
 
         incrementButton.setOnClickListener {
             uiState = count.increment(countTextView.text.toString())
@@ -40,24 +37,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putSerializable(UISTATE_KEY, uiState)
-    }
-
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        uiState =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) savedInstanceState.getSerializable(
-                UISTATE_KEY, UiState::class.java
-            ) as UiState
-            else savedInstanceState.getSerializable(UISTATE_KEY) as UiState
-
+        uiState = count.initial(countTextView.text.toString())
         uiState.apply(countTextView, incrementButton, decrementButton)
-    }
-
-    companion object {
-        private const val UISTATE_KEY = "UiStateKey"
     }
 }
