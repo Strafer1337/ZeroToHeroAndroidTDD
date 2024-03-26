@@ -21,7 +21,15 @@ class MainActivity : AppCompatActivity() {
         incrementButton = findViewById(R.id.incrementButton)
 
         incrementButton.setOnClickListener {
-
+            Count.Base(2, 4)
+                .increment(countTextView.text.toString())
+                .also{
+                    countTextView.text = it.getText()
+                    when (it) {
+                        is UiState.Base -> incrementButton.isEnabled = true
+                        is UiState.Max -> incrementButton.isEnabled = false
+                    }
+            }
         }
     }
 
